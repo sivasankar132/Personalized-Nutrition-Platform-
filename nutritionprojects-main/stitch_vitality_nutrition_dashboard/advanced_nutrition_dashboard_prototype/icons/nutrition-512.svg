@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="Nutrition Dashboard">
+  <rect width="512" height="512" rx="112" fill="#0d9488"/>
+  <circle cx="256" cy="256" r="162" fill="#f7f9fb" opacity=".96"/>
+  <path d="M256 128v256M128 256h256" stroke="#0d9488" stroke-width="38" stroke-linecap="round"/>
+  <path d="M256 163c-59 0-104 45-104 104 0 67 45 112 104 112 59 0 104-45 104-112 0-59-45-104-104-104Z" fill="none" stroke="#006a61" stroke-width="16" opacity=".7"/>
+</svg>

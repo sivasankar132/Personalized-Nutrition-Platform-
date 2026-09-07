@@ -1,0 +1,1070 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Nutrition Dashboard</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+  tailwind.config = {
+    darkMode: "class",
+    theme: {
+      extend: {
+        "colors": {
+                "tertiary-container": "#b05e3d",
+                "on-secondary": "#ffffff",
+                "on-surface-variant": "#3d4947",
+                "outline-variant": "#bcc9c6",
+                "on-primary-container": "#f4fffc",
+                "on-secondary-container": "#004666",
+                "on-background": "#191c1e",
+                "on-secondary-fixed": "#001e2f",
+                "inverse-primary": "#6bd8cb",
+                "tertiary-fixed": "#ffdbce",
+                "secondary-fixed-dim": "#89ceff",
+                "inverse-on-surface": "#eff1f3",
+                "surface-container-high": "#e6e8ea",
+                "surface-container-highest": "#e0e3e5",
+                "surface": "#f7f9fb",
+                "surface-container-lowest": "#ffffff",
+                "on-tertiary-container": "#fffbff",
+                "on-primary-fixed-variant": "#005049",
+                "on-secondary-fixed-variant": "#004c6e",
+                "on-surface": "#191c1e",
+                "background": "#f7f9fb",
+                "on-error": "#ffffff",
+                "tertiary-fixed-dim": "#ffb59a",
+                "secondary-fixed": "#c9e6ff",
+                "on-error-container": "#93000a",
+                "on-tertiary": "#ffffff",
+                "surface-container": "#eceef0",
+                "surface-container-low": "#f2f4f6",
+                "outline": "#6d7a77",
+                "tertiary": "#924628",
+                "surface-bright": "#f7f9fb",
+                "secondary-container": "#39b8fd",
+                "surface-variant": "#e0e3e5",
+                "on-tertiary-fixed-variant": "#773215",
+                "primary-fixed-dim": "#6bd8cb",
+                "error-container": "#ffdad6",
+                "inverse-surface": "#2d3133",
+                "surface-dim": "#d8dadc",
+                "primary": "#0d9488", /* Updated to teal accent */
+                "on-primary-fixed": "#00201d",
+                "on-primary": "#ffffff",
+                "secondary": "#006591",
+                "primary-fixed": "#89f5e7",
+                "surface-tint": "#006a61",
+                "error": "#ba1a1a",
+                "primary-container": "#008378",
+                "on-tertiary-fixed": "#370e00"
+        },
+        "borderRadius": {
+                "DEFAULT": "0.25rem",
+                "lg": "0.5rem",
+                "xl": "0.75rem",
+                "full": "9999px"
+        },
+        "spacing": {
+                "xs": "8px",
+                "gutter": "20px",
+                "base": "4px",
+                "md": "24px",
+                "sm": "16px",
+                "container-margin": "24px",
+                "lg": "32px",
+                "xl": "48px"
+        },
+        "fontFamily": {
+                "body-sm": [
+                        "Inter"
+                ],
+                "headline-lg": [
+                        "Inter"
+                ],
+                "body-md": [
+                        "Inter"
+                ],
+                "body-lg": [
+                        "Inter"
+                ],
+                "headline-sm": [
+                        "Inter"
+                ],
+                "display-lg": [
+                        "Inter"
+                ],
+                "label-md": [
+                        "Inter"
+                ],
+                "headline-lg-mobile": [
+                        "Inter"
+                ],
+                "headline-md": [
+                        "Inter"
+                ]
+        },
+        "fontSize": {
+                "body-sm": [
+                        "14px",
+                        {
+                                "lineHeight": "20px",
+                                "fontWeight": "400"
+                        }
+                ],
+                "headline-lg": [
+                        "32px",
+                        {
+                                "lineHeight": "40px",
+                                "letterSpacing": "-0.01em",
+                                "fontWeight": "600"
+                        }
+                ],
+                "body-md": [
+                        "16px",
+                        {
+                                "lineHeight": "24px",
+                                "fontWeight": "400"
+                        }
+                ],
+                "body-lg": [
+                        "18px",
+                        {
+                                "lineHeight": "28px",
+                                "fontWeight": "400"
+                        }
+                ],
+                "headline-sm": [
+                        "20px",
+                        {
+                                "lineHeight": "28px",
+                                "fontWeight": "500"
+                        }
+                ],
+                "display-lg": [
+                        "48px",
+                        {
+                                "lineHeight": "56px",
+                                "letterSpacing": "-0.02em",
+                                "fontWeight": "600"
+                        }
+                ],
+                "label-md": [
+                        "12px",
+                        {
+                                "lineHeight": "16px",
+                                "letterSpacing": "0.05em",
+                                "fontWeight": "600"
+                        }
+                ],
+                "headline-lg-mobile": [
+                        "28px",
+                        {
+                                "lineHeight": "34px",
+                                "fontWeight": "600"
+                        }
+                ],
+                "headline-md": [
+                        "24px",
+                        {
+                                "lineHeight": "32px",
+                                "fontWeight": "500"
+                        }
+                ]
+        }
+},
+    },
+  }
+</script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .material-symbols-outlined.fill {
+            font-variation-settings: 'FILL' 1;
+        }
+        
+        .gauge-container {
+            position: relative;
+            width: 200px;
+            height: 100px;
+            overflow: hidden;
+            margin: 0 auto;
+        }
+        .gauge-background {
+            position: absolute;
+            top: 0; left: 0; width: 200px; height: 200px;
+            border-radius: 50%;
+            border: 20px solid #e2e8f0;
+            box-sizing: border-box;
+            border-bottom-color: transparent;
+            border-right-color: transparent;
+            transform: rotate(45deg);
+        }
+        .gauge-fill {
+            position: absolute;
+            top: 0; left: 0; width: 200px; height: 200px;
+            border-radius: 50%;
+            border: 20px solid #0d9488; /* Updated to teal accent */
+            box-sizing: border-box;
+            border-bottom-color: transparent;
+            border-right-color: transparent;
+            transform: rotate(-135deg); /* Start at 0 */
+            transition: transform 1.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .progress-bar {
+            transition: width 1s ease-in-out;
+        }
+        
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        
+        /* Modal Transitions */
+        .modal-enter { opacity: 0; transform: scale(0.95); }
+        .modal-enter-active { opacity: 1; transform: scale(1); transition: opacity 300ms, transform 300ms; }
+        .modal-exit { opacity: 1; transform: scale(1); }
+        .modal-exit-active { opacity: 0; transform: scale(0.95); transition: opacity 300ms, transform 300ms; }
+    </style>
+</head>
+<body class="bg-background text-on-surface font-body-md min-h-screen pb-24 md:pb-0 pt-20 md:pt-20 md:pl-64 flex flex-col md:flex-row transition-colors duration-300">
+<!-- Desktop Fixed Top Nav Bar -->
+<nav class="hidden md:flex fixed top-0 left-64 right-0 z-40 justify-between items-center px-8 h-20 bg-surface/90 dark:bg-surface-dim/90 backdrop-blur-xl border-b border-outline-variant/30">
+<div class="font-headline-md text-headline-md tracking-tight font-bold text-on-surface">
+        NUTRITION DASHBOARD
+    </div>
+<div class="flex gap-4">
+<button class="text-on-surface-variant hover:bg-surface-container-low rounded-full transition-all p-2 flex items-center gap-2" onclick="openProfileModal()">
+<span class="font-label-md">Profile</span>
+<span class="material-symbols-outlined">account_circle</span>
+</button>
+<button class="text-on-surface-variant hover:bg-surface-container-low rounded-full transition-all p-2 flex items-center gap-2" onclick="openSettingsModal()">
+<span class="font-label-md">Settings</span>
+<span class="material-symbols-outlined">settings</span>
+</button>
+</div>
+</nav>
+<!-- Mobile Top Nav Bar -->
+<nav class="md:hidden fixed top-0 w-full z-50 flex justify-between items-center px-container-margin h-20 max-w-full mx-auto bg-surface/90 dark:bg-surface-dim/90 backdrop-blur-xl border-b border-outline-variant/30">
+<div class="font-headline-md text-headline-md tracking-tight font-bold text-on-surface dark:text-on-surface-variant">
+            NUTRITION DASHBOARD
+        </div>
+<div class="flex gap-4">
+<button class="text-on-surface-variant dark:text-outline hover:bg-surface-container-low dark:hover:bg-surface-container-highest rounded-full transition-all p-2 flex items-center justify-center" onclick="openProfileModal()">
+<span class="material-symbols-outlined">account_circle</span>
+</button>
+<button class="text-on-surface-variant dark:text-outline hover:bg-surface-container-low dark:hover:bg-surface-container-highest rounded-full transition-all p-2 flex items-center justify-center" onclick="openSettingsModal()">
+<span class="material-symbols-outlined">settings</span>
+</button>
+</div>
+</nav>
+<!-- Side Nav Bar (Desktop) -->
+<nav class="fixed left-0 top-0 h-screen w-64 hidden md:flex flex-col border-r border-outline-variant/30 bg-surface-container-lowest dark:bg-surface-dim z-50 py-6">
+<div class="px-6 mb-8 mt-2">
+<h1 class="font-headline-sm text-headline-sm font-bold text-primary dark:text-primary-fixed-dim" id="sidebar-greeting">Good morning, Aarav</h1>
+<p class="font-body-sm text-body-sm text-on-surface-variant" id="sidebar-date">Sunday, August 16, 2026</p>
+<p class="font-label-md text-label-md text-on-surface-variant/70 mt-2 italic">"Small food choices today build a healthier tomorrow."</p>
+</div>
+<div class="flex flex-col gap-2 flex-grow">
+<!-- Active Tab -->
+<a class="bg-secondary-container/50 dark:bg-primary-container/20 text-primary dark:text-primary-fixed-dim rounded-xl mx-2 py-3 px-4 flex items-center gap-3" href="#" onclick="showSection('overview')">
+<span class="material-symbols-outlined fill">dashboard</span>
+<span class="font-label-md text-label-md">Overview</span>
+</a>
+<!-- Inactive Tabs -->
+<a class="text-on-surface-variant dark:text-outline mx-2 py-3 px-4 flex items-center gap-3 hover:bg-surface-container dark:hover:bg-surface-container-high rounded-xl transition-all" href="#" onclick="openNutrientsModal()">
+<span class="material-symbols-outlined">dataset</span>
+<span class="font-label-md text-label-md">Nutrients</span>
+</a>
+<a class="text-on-surface-variant dark:text-outline mx-2 py-3 px-4 flex items-center gap-3 hover:bg-surface-container dark:hover:bg-surface-container-high rounded-xl transition-all" href="#" onclick="openScannerModal()">
+<span class="material-symbols-outlined">photo_camera</span>
+<span class="font-label-md text-label-md">Scanner</span>
+</a>
+<a class="text-on-surface-variant dark:text-outline mx-2 py-3 px-4 flex items-center gap-3 hover:bg-surface-container dark:hover:bg-surface-container-high rounded-xl transition-all" href="#" onclick="showSection('analytics')">
+<span class="material-symbols-outlined">insights</span>
+<span class="font-label-md text-label-md">Analytics</span>
+</a>
+</div>
+<div class="px-4 mb-6">
+<button class="w-full bg-primary text-on-primary font-label-md text-label-md py-3 rounded-full hover:opacity-90 transition-opacity flex justify-center items-center gap-2" onclick="openScannerModal()">
+<span class="material-symbols-outlined">add</span> Log Meal
+            </button>
+</div>
+<div class="mt-auto border-t border-outline-variant/30 pt-4 flex flex-col gap-2">
+<a class="text-on-surface-variant dark:text-outline mx-2 py-3 px-4 flex items-center gap-3 hover:bg-surface-container dark:hover:bg-surface-container-high rounded-xl transition-all" href="#">
+<span class="material-symbols-outlined">help</span>
+<span class="font-label-md text-label-md">Help</span>
+</a>
+<a class="text-on-surface-variant dark:text-outline mx-2 py-3 px-4 flex items-center gap-3 hover:bg-surface-container dark:hover:bg-surface-container-high rounded-xl transition-all" href="#">
+<span class="material-symbols-outlined">logout</span>
+<span class="font-label-md text-label-md">Logout</span>
+</a>
+</div>
+</nav>
+<!-- Main Content Area -->
+<main class="flex-1 w-full max-w-7xl mx-auto p-4 md:p-8 flex flex-col gap-8 relative" id="main-content">
+<!-- Overview Section (Default) -->
+<div class="flex flex-col gap-8" id="section-overview">
+<!-- Top Bento Grid (Vitamins, Scanner, Body) -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+<!-- Vitamins Profile -->
+<div class="bg-surface-container-lowest border border-outline-variant/30 rounded-xl p-md shadow-[0_10px_30px_rgba(0,0,0,0.03)] cursor-pointer hover:shadow-md transition-shadow relative overflow-hidden" onclick="openNutrientsModal()">
+<h2 class="font-headline-sm text-headline-sm text-primary mb-4 flex justify-between items-center">
+                                VITAMINS
+                                <span class="material-symbols-outlined text-outline">open_in_full</span>
+</h2>
+<div class="grid grid-cols-2 gap-4">
+<div>
+<div class="flex justify-between font-label-md text-label-md text-on-surface-variant mb-1">
+<span>Vit A</span><span>72%</span>
+</div>
+<div class="w-full bg-surface-container h-1.5 rounded-full overflow-hidden">
+<div class="bg-primary h-full progress-bar" style="width: 72%"></div>
+</div>
+</div>
+<div>
+<div class="flex justify-between font-label-md text-label-md text-on-surface-variant mb-1">
+<span>Vit B12</span><span>60%</span>
+</div>
+<div class="w-full bg-surface-container h-1.5 rounded-full overflow-hidden">
+<div class="bg-secondary h-full progress-bar" style="width: 60%"></div>
+</div>
+</div>
+<div>
+<div class="flex justify-between font-label-md text-label-md text-on-surface-variant mb-1">
+<span>Vit C</span><span>85%</span>
+</div>
+<div class="w-full bg-surface-container h-1.5 rounded-full overflow-hidden">
+<div class="bg-primary h-full progress-bar" style="width: 85%"></div>
+</div>
+</div>
+<div>
+<div class="flex justify-between font-label-md text-label-md text-on-surface-variant mb-1">
+<span>Vit D</span><span>65%</span>
+</div>
+<div class="w-full bg-surface-container h-1.5 rounded-full overflow-hidden">
+<div class="bg-tertiary h-full progress-bar" style="width: 65%"></div>
+</div>
+</div>
+<div>
+<div class="flex justify-between font-label-md text-label-md text-on-surface-variant mb-1">
+<span>Iron</span><span>80%</span>
+</div>
+<div class="w-full bg-surface-container h-1.5 rounded-full overflow-hidden">
+<div class="bg-primary h-full progress-bar" style="width: 80%"></div>
+</div>
+</div>
+<div>
+<div class="flex justify-between font-label-md text-label-md text-on-surface-variant mb-1">
+<span>Calcium</span><span>70%</span>
+</div>
+<div class="w-full bg-surface-container h-1.5 rounded-full overflow-hidden">
+<div class="bg-primary h-full progress-bar" style="width: 70%"></div>
+</div>
+</div>
+</div>
+</div>
+<!-- Food Scanner (Center Focus) -->
+<div class="bg-surface-container-lowest border border-outline-variant/30 rounded-xl p-md shadow-[0_10px_30px_rgba(0,0,0,0.03)] flex flex-col items-center justify-center text-center">
+<div class="w-20 h-20 rounded-full bg-surface-container-low flex items-center justify-center mb-4 text-primary">
+<span class="material-symbols-outlined" style="font-size: 40px;">photo_camera</span>
+</div>
+<h2 class="font-headline-sm text-headline-sm text-on-surface mb-2">FOOD SCANNER</h2>
+<p class="font-body-sm text-body-sm text-on-surface-variant mb-6 px-4">Instantly analyze meals using your camera.</p>
+<button class="bg-primary text-on-primary font-label-md text-label-md py-3 px-8 rounded-full hover:bg-opacity-90 transition-all flex items-center gap-2 shadow-sm" onclick="openScannerModal()">
+<span class="material-symbols-outlined">view_in_ar</span> SCAN FOOD
+                            </button>
+</div>
+<!-- Body Profile -->
+<div class="bg-surface-container-lowest border border-outline-variant/30 rounded-xl p-md shadow-[0_10px_30px_rgba(0,0,0,0.03)] cursor-pointer hover:shadow-md transition-shadow" onclick="openBodyModal()">
+<h2 class="font-headline-sm text-headline-sm text-primary mb-4 flex justify-between items-center">
+                                BODY
+                                <span class="material-symbols-outlined text-outline">calculate</span>
+</h2>
+<div class="flex items-end gap-2 mb-6">
+<span class="font-display-lg text-display-lg text-on-surface" id="bmi-display">22.4</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant mb-2">BMI</span>
+<span class="ml-auto font-label-md text-label-md bg-secondary-container text-on-secondary-container px-3 py-1 rounded-full">Normal</span>
+</div>
+<div class="grid grid-cols-2 gap-y-4 gap-x-2 border-t border-outline-variant/30 pt-4">
+<div>
+<div class="font-label-md text-label-md text-on-surface-variant">Calories</div>
+<div class="font-headline-sm text-headline-sm" id="cal-display">2000</div>
+</div>
+<div>
+<div class="font-label-md text-label-md text-on-surface-variant">Protein</div>
+<div class="font-headline-sm text-headline-sm" id="pro-display">75g</div>
+</div>
+<div class="col-span-2">
+<div class="font-label-md text-label-md text-on-surface-variant">Water</div>
+<div class="font-headline-sm text-headline-sm">2.5L</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Today's Nutrition Accordion -->
+<div class="bg-surface-container-lowest border border-outline-variant/30 rounded-xl shadow-[0_10px_30px_rgba(0,0,0,0.03)] overflow-hidden">
+<!-- Accordion Header -->
+<button class="w-full flex items-center justify-between p-md bg-surface-container-lowest hover:bg-surface-container-low transition-colors" onclick="toggleNutritionDetails()">
+<div class="flex items-center gap-4">
+<div class="relative w-16 h-16">
+<!-- Mini Gauge -->
+<svg class="w-full h-full transform -rotate-90" viewbox="0 0 36 36">
+<path class="text-surface-container" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" stroke-width="4"></path>
+<path class="text-primary transition-all duration-1000 ease-out" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" id="mini-gauge-fill" stroke="currentColor" stroke-dasharray="0, 100" stroke-width="4"></path>
+</svg>
+<div class="absolute inset-0 flex items-center justify-center font-label-md text-label-md" id="mini-score">0</div>
+</div>
+<div class="text-left">
+<h2 class="font-headline-md text-headline-md text-on-surface">TODAY's NUTRITION</h2>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Score: <span id="header-score">0</span> / 100</p>
+</div>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant transition-transform duration-300" id="accordion-icon">expand_more</span>
+</button>
+<!-- Accordion Content -->
+<div class="hidden border-t border-outline-variant/30 p-md bg-surface-bright" id="nutrition-details">
+<!-- Main Gauge -->
+<div class="flex flex-col items-center mb-8">
+<div class="gauge-container">
+<div class="gauge-background"></div>
+<div class="gauge-fill" id="main-gauge-fill"></div>
+</div>
+<div class="text-center mt-[-30px]">
+<div class="font-display-lg text-display-lg text-on-surface" id="main-score">0</div>
+<div class="font-label-md text-label-md text-on-surface-variant">OUT OF 100</div>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+<!-- Timeline -->
+<div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface mb-4 border-b border-outline-variant/30 pb-2">FOOD TIMELINE</h3>
+<ul class="space-y-4" id="food-timeline-list">
+<li class="flex items-center gap-4">
+<div class="w-8 h-8 rounded-full bg-primary-container text-on-primary-container flex items-center justify-center">
+<span class="material-symbols-outlined" style="font-size: 16px;">check</span>
+</div>
+<div class="flex-1">
+<div class="font-body-md text-body-md text-on-surface">Breakfast</div>
+<div class="font-body-sm text-body-sm text-on-surface-variant">Oats &amp; Berries</div>
+</div>
+</li>
+<li class="flex items-center gap-4">
+<div class="w-8 h-8 rounded-full bg-primary-container text-on-primary-container flex items-center justify-center">
+<span class="material-symbols-outlined" style="font-size: 16px;">check</span>
+</div>
+<div class="flex-1">
+<div class="font-body-md text-body-md text-on-surface">Lunch</div>
+<div class="font-body-sm text-body-sm text-on-surface-variant">Grilled Chicken Salad</div>
+</div>
+</li>
+<li class="flex items-center gap-4">
+<div class="w-8 h-8 rounded-full bg-primary-container text-on-primary-container flex items-center justify-center">
+<span class="material-symbols-outlined" style="font-size: 16px;">check</span>
+</div>
+<div class="flex-1">
+<div class="font-body-md text-body-md text-on-surface">Snack</div>
+<div class="font-body-sm text-body-sm text-on-surface-variant">Almonds</div>
+</div>
+</li>
+<li class="flex items-center gap-4 opacity-50" id="dinner-placeholder">
+<div class="w-8 h-8 rounded-full bg-surface-container-high text-on-surface-variant flex items-center justify-center">
+<span class="material-symbols-outlined" style="font-size: 16px;">horizontal_rule</span>
+</div>
+<div class="flex-1">
+<div class="font-body-md text-body-md text-on-surface">Dinner</div>
+<div class="font-body-sm text-body-sm text-on-surface-variant">Not logged yet</div>
+</div>
+</li>
+</ul>
+</div>
+<!-- Gaps & Smarter Choice -->
+<div class="flex flex-col gap-6">
+<div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface mb-4 border-b border-outline-variant/30 pb-2">NUTRITION GAPS</h3>
+<ul class="space-y-3">
+<li class="flex items-center justify-between">
+<span class="font-body-md text-body-md text-on-surface">Fiber</span>
+<div class="flex items-center gap-2">
+<div class="w-2 h-2 rounded-full bg-error"></div>
+<span class="font-label-md text-label-md text-error">LOW</span>
+</div>
+</li>
+<li class="flex items-center justify-between">
+<span class="font-body-md text-body-md text-on-surface">Vitamin D</span>
+<div class="flex items-center gap-2">
+<div class="w-2 h-2 rounded-full bg-[#f59e0b]"></div>
+<span class="font-label-md text-label-md text-[#f59e0b]">MODERATE</span>
+</div>
+</li>
+<li class="flex items-center justify-between">
+<span class="font-body-md text-body-md text-on-surface">Protein</span>
+<div class="flex items-center gap-2">
+<div class="w-2 h-2 rounded-full bg-primary"></div>
+<span class="font-label-md text-label-md text-primary">GOOD</span>
+</div>
+</li>
+</ul>
+</div>
+<div class="bg-secondary-container/30 rounded-xl p-4 border border-secondary/20">
+<h4 class="font-label-md text-label-md text-secondary mb-2 flex items-center gap-2">
+<span class="material-symbols-outlined" style="font-size: 16px;">lightbulb</span>
+                                        SMARTER FOOD CHOICE
+                                    </h4>
+<p class="font-body-sm text-body-sm text-on-surface-variant italic">
+                                        "Try roasted peanuts instead of chips for more protein and better satiety."
+                                    </p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Analytics Section (Hidden by default) -->
+<div class="hidden flex-col gap-6" id="section-analytics">
+<h2 class="font-headline-lg text-headline-lg text-on-surface">Analytics</h2>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<div class="bg-surface-container-lowest border border-outline-variant/30 rounded-xl p-md shadow-sm">
+<h3 class="font-headline-sm text-headline-sm text-on-surface mb-4">Weekly Score</h3>
+<div class="h-48 flex items-end justify-between gap-2 px-2 pb-2 border-b border-outline-variant/30">
+<div class="w-8 bg-primary/40 rounded-t-md h-[60%]"></div>
+<div class="w-8 bg-primary/60 rounded-t-md h-[75%]"></div>
+<div class="w-8 bg-primary/50 rounded-t-md h-[65%]"></div>
+<div class="w-8 bg-primary/80 rounded-t-md h-[85%]"></div>
+<div class="w-8 bg-primary rounded-t-md h-[90%]"></div>
+<div class="w-8 bg-primary/70 rounded-t-md h-[72%]"></div>
+<div class="w-8 bg-surface-container-high rounded-t-md h-[10%]"></div>
+</div>
+<div class="flex justify-between mt-2 font-label-md text-on-surface-variant">
+<span>M</span><span>T</span><span>W</span><span>T</span><span>F</span><span>S</span><span>S</span>
+</div>
+</div>
+<div class="bg-surface-container-lowest border border-outline-variant/30 rounded-xl p-md shadow-sm">
+<h3 class="font-headline-sm text-headline-sm text-on-surface mb-4">Caloric Intake</h3>
+<div class="flex flex-col gap-4">
+<div>
+<div class="flex justify-between font-label-md mb-1 text-on-surface-variant"><span>Mon</span><span>1950 kcal</span></div>
+<div class="w-full bg-surface-container h-2 rounded-full overflow-hidden"><div class="bg-secondary h-full" style="width: 95%"></div></div>
+</div>
+<div>
+<div class="flex justify-between font-label-md mb-1 text-on-surface-variant"><span>Tue</span><span>2100 kcal</span></div>
+<div class="w-full bg-surface-container h-2 rounded-full overflow-hidden"><div class="bg-secondary h-full" style="width: 105%"></div></div>
+</div>
+<div>
+<div class="flex justify-between font-label-md mb-1 text-on-surface-variant"><span>Wed</span><span>1800 kcal</span></div>
+<div class="w-full bg-surface-container h-2 rounded-full overflow-hidden"><div class="bg-secondary h-full" style="width: 90%"></div></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div></main>
+<!-- Mobile Bottom Nav Bar -->
+<nav class="md:hidden fixed bottom-0 left-0 w-full z-40 flex justify-around items-center h-20 px-4 pb-safe bg-surface-container-lowest/90 dark:bg-surface-dim/90 backdrop-blur-2xl border-t border-outline-variant/30 shadow-[0_-4px_20px_rgba(0,0,0,0.05)] rounded-t-3xl">
+<a class="flex flex-col items-center justify-center text-primary dark:text-primary-fixed-dim scale-110 transition-transform" href="#" onclick="showSection('overview')">
+<span class="material-symbols-outlined fill">home</span>
+<span class="font-label-md text-label-md mt-1">Home</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline active:bg-surface-container-high rounded-full transition-all p-2" href="#" onclick="openScannerModal()">
+<span class="material-symbols-outlined">photo_camera</span>
+<span class="font-label-md text-label-md mt-1">Scanner</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline active:bg-surface-container-high rounded-full transition-all p-2" href="#" onclick="showSection('analytics')">
+<span class="material-symbols-outlined">insights</span>
+<span class="font-label-md text-label-md mt-1">Stats</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline active:bg-surface-container-high rounded-full transition-all p-2" href="#" onclick="openProfileModal()">
+<span class="material-symbols-outlined">person</span>
+<span class="font-label-md text-label-md mt-1">Profile</span>
+</a>
+</nav>
+<!-- Modals -->
+<!-- Profile Modal -->
+<div class="fixed inset-0 z-[100] hidden items-center justify-center" id="profile-modal">
+<div class="absolute inset-0 bg-on-background/20 backdrop-blur-sm" onclick="closeModal('profile-modal')"></div>
+<div class="relative bg-surface-container-lowest rounded-2xl w-full max-w-md m-4 shadow-xl border border-outline-variant/30 overflow-hidden transform scale-95 opacity-0 transition-all" id="profile-modal-content">
+<div class="p-6 max-h-[80vh] overflow-y-auto">
+<div class="flex justify-between items-start mb-6">
+<h2 class="font-headline-md text-headline-md text-on-surface">Profile</h2>
+<button class="text-on-surface-variant hover:bg-surface-container rounded-full p-1" onclick="closeModal('profile-modal')">
+<span class="material-symbols-outlined">close</span>
+</button>
+</div>
+<div class="flex flex-col items-center gap-4 mb-6">
+<div class="w-24 h-24 rounded-full bg-primary-container text-on-primary-container flex items-center justify-center text-3xl font-bold" id="profile-initials">
+                        AS
+                    </div>
+<div class="text-center w-full">
+<input class="w-full text-center font-headline-sm text-headline-sm text-on-surface bg-transparent border-b border-transparent hover:border-outline focus:border-primary focus:outline-none transition-colors" id="profile-name-input" onchange="updateProfileName()" type="text" value="Aarav Sharma"/>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1">Premium Member</p>
+</div>
+</div>
+<div class="space-y-4">
+<div class="grid grid-cols-2 gap-4">
+<div>
+<label class="font-label-md text-on-surface-variant">Age</label>
+<input class="w-full mt-1 px-3 py-2 bg-surface rounded-lg border border-outline-variant focus:border-primary focus:outline-none" type="number" value="28"/>
+</div>
+<div>
+<label class="font-label-md text-on-surface-variant">Height (cm)</label>
+<input class="w-full mt-1 px-3 py-2 bg-surface rounded-lg border border-outline-variant focus:border-primary focus:outline-none" type="number" value="175"/>
+</div>
+<div>
+<label class="font-label-md text-on-surface-variant">Weight (kg)</label>
+<input class="w-full mt-1 px-3 py-2 bg-surface rounded-lg border border-outline-variant focus:border-primary focus:outline-none" type="number" value="70"/>
+</div>
+<div>
+<label class="font-label-md text-on-surface-variant">Activity</label>
+<select class="w-full mt-1 px-3 py-2 bg-surface rounded-lg border border-outline-variant focus:border-primary focus:outline-none">
+<option>Sedentary</option>
+<option selected="">Moderate</option>
+<option>Active</option>
+</select>
+</div>
+</div>
+<button class="w-full bg-primary text-on-primary py-3 rounded-xl font-label-md mt-4 hover:opacity-90 transition-opacity" onclick="closeModal('profile-modal')">Save Changes</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Settings Modal -->
+<div class="fixed inset-0 z-[100] hidden items-center justify-center" id="settings-modal">
+<div class="absolute inset-0 bg-on-background/20 backdrop-blur-sm" onclick="closeModal('settings-modal')"></div>
+<div class="relative bg-surface-container-lowest rounded-2xl w-full max-w-sm m-4 shadow-xl border border-outline-variant/30 overflow-hidden transform scale-95 opacity-0 transition-all" id="settings-modal-content">
+<div class="p-6">
+<div class="flex justify-between items-start mb-6">
+<h2 class="font-headline-md text-headline-md text-on-surface">Settings</h2>
+<button class="text-on-surface-variant hover:bg-surface-container rounded-full p-1" onclick="closeModal('settings-modal')">
+<span class="material-symbols-outlined">close</span>
+</button>
+</div>
+<div class="space-y-6">
+<div class="flex items-center justify-between">
+<div>
+<div class="font-body-md text-on-surface">Dark Mode</div>
+<div class="font-body-sm text-on-surface-variant">Switch to dark theme</div>
+</div>
+<label class="relative inline-flex items-center cursor-pointer">
+<input class="sr-only peer" id="theme-toggle" onchange="toggleTheme()" type="checkbox"/>
+<div class="w-11 h-6 bg-surface-container-highest peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+</label>
+</div>
+<div class="flex items-center justify-between">
+<div>
+<div class="font-body-md text-on-surface">Animations</div>
+<div class="font-body-sm text-on-surface-variant">Enable gauge animations</div>
+</div>
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" id="anim-toggle" onchange="toggleAnimations()" type="checkbox"/>
+<div class="w-11 h-6 bg-surface-container-highest peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+</label>
+</div>
+<div class="flex items-center justify-between">
+<div>
+<div class="font-body-md text-on-surface">Notifications</div>
+<div class="font-body-sm text-on-surface-variant">Meal reminders</div>
+</div>
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox"/>
+<div class="w-11 h-6 bg-surface-container-highest peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+</label>
+</div>
+<div class="flex items-center justify-between">
+<div>
+<div class="font-body-md text-on-surface">Units</div>
+<div class="font-body-sm text-on-surface-variant">Metric / Imperial</div>
+</div>
+<select class="px-2 py-1 bg-surface rounded border border-outline-variant text-sm">
+<option>Metric</option>
+<option>Imperial</option>
+</select>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Nutrients Modal -->
+<div class="fixed inset-0 z-[100] hidden items-center justify-center" id="nutrients-modal">
+<div class="absolute inset-0 bg-on-background/50 backdrop-blur-sm" onclick="closeModal('nutrients-modal')"></div>
+<div class="relative bg-surface-container-lowest rounded-2xl w-full max-w-lg m-4 shadow-xl border border-outline-variant/30 overflow-hidden transform scale-95 opacity-0 transition-all max-h-[90vh] flex flex-col" id="nutrients-modal-content">
+<div class="p-6 border-b border-outline-variant/30 flex justify-between items-center">
+<h2 class="font-headline-md text-headline-md text-on-surface">All Nutrients</h2>
+<button class="text-on-surface-variant hover:bg-surface-container rounded-full p-1" onclick="closeModal('nutrients-modal')">
+<span class="material-symbols-outlined">close</span>
+</button>
+</div>
+<div class="p-6 overflow-y-auto space-y-5">
+<!-- 10 Nutrients -->
+<div><div class="flex justify-between font-label-md mb-1"><span>Vitamin A</span><span>72%</span></div><div class="w-full bg-surface-container h-2 rounded-full overflow-hidden"><div class="bg-primary h-full progress-bar" style="width: 72%"></div></div></div>
+<div><div class="flex justify-between font-label-md mb-1"><span>Vitamin B1</span><span>45%</span></div><div class="w-full bg-surface-container h-2 rounded-full overflow-hidden"><div class="bg-[#f59e0b] h-full progress-bar" style="width: 45%"></div></div></div>
+<div><div class="flex justify-between font-label-md mb-1"><span>Vitamin B6</span><span>90%</span></div><div class="w-full bg-surface-container h-2 rounded-full overflow-hidden"><div class="bg-primary h-full progress-bar" style="width: 90%"></div></div></div>
+<div><div class="flex justify-between font-label-md mb-1"><span>Vitamin B12</span><span>60%</span></div><div class="w-full bg-surface-container h-2 rounded-full overflow-hidden"><div class="bg-secondary h-full progress-bar" style="width: 60%"></div></div></div>
+<div><div class="flex justify-between font-label-md mb-1"><span>Vitamin C</span><span>85%</span></div><div class="w-full bg-surface-container h-2 rounded-full overflow-hidden"><div class="bg-primary h-full progress-bar" style="width: 85%"></div></div></div>
+<div><div class="flex justify-between font-label-md mb-1"><span>Vitamin D</span><span>65%</span></div><div class="w-full bg-surface-container h-2 rounded-full overflow-hidden"><div class="bg-tertiary h-full progress-bar" style="width: 65%"></div></div></div>
+<div><div class="flex justify-between font-label-md mb-1"><span>Vitamin E</span><span>50%</span></div><div class="w-full bg-surface-container h-2 rounded-full overflow-hidden"><div class="bg-[#f59e0b] h-full progress-bar" style="width: 50%"></div></div></div>
+<div><div class="flex justify-between font-label-md mb-1"><span>Vitamin K</span><span>95%</span></div><div class="w-full bg-surface-container h-2 rounded-full overflow-hidden"><div class="bg-primary h-full progress-bar" style="width: 95%"></div></div></div>
+<div><div class="flex justify-between font-label-md mb-1"><span>Iron</span><span>80%</span></div><div class="w-full bg-surface-container h-2 rounded-full overflow-hidden"><div class="bg-primary h-full progress-bar" style="width: 80%"></div></div></div>
+<div><div class="flex justify-between font-label-md mb-1"><span>Calcium</span><span>70%</span></div><div class="w-full bg-surface-container h-2 rounded-full overflow-hidden"><div class="bg-primary h-full progress-bar" style="width: 70%"></div></div></div>
+</div>
+</div>
+</div>
+<!-- Body Calculator Modal -->
+<div class="fixed inset-0 z-[100] hidden items-center justify-center" id="body-modal">
+<div class="absolute inset-0 bg-on-background/50 backdrop-blur-sm" onclick="closeModal('body-modal')"></div>
+<div class="relative bg-surface-container-lowest rounded-2xl w-full max-w-sm m-4 shadow-xl border border-outline-variant/30 overflow-hidden transform scale-95 opacity-0 transition-all" id="body-modal-content">
+<div class="p-6">
+<div class="flex justify-between items-start mb-6">
+<h2 class="font-headline-md text-headline-md text-on-surface">Body Calculator</h2>
+<button class="text-on-surface-variant hover:bg-surface-container rounded-full p-1" onclick="closeModal('body-modal')">
+<span class="material-symbols-outlined">close</span>
+</button>
+</div>
+<div class="space-y-4">
+<div>
+<label class="font-label-md text-on-surface-variant">Height (cm)</label>
+<input class="w-full mt-1 px-3 py-2 bg-surface rounded-lg border border-outline-variant focus:border-primary focus:outline-none" id="calc-height" type="number" value="175"/>
+</div>
+<div>
+<label class="font-label-md text-on-surface-variant">Weight (kg)</label>
+<input class="w-full mt-1 px-3 py-2 bg-surface rounded-lg border border-outline-variant focus:border-primary focus:outline-none" id="calc-weight" type="number" value="70"/>
+</div>
+<button class="w-full bg-primary text-on-primary py-3 rounded-xl font-label-md mt-4 hover:opacity-90 transition-opacity" onclick="calculateBodyMetrics()">Calculate</button>
+</div>
+<div class="mt-6 pt-6 border-t border-outline-variant/30 text-center hidden" id="calc-results">
+<div class="font-display-lg text-primary" id="res-bmi">22.8</div>
+<div class="font-label-md text-on-surface-variant mb-4">Calculated BMI</div>
+<div class="flex justify-center gap-4">
+<div class="bg-surface-container p-3 rounded-lg"><div class="font-headline-sm">2100</div><div class="font-label-md text-on-surface-variant">Target Kcal</div></div>
+<div class="bg-surface-container p-3 rounded-lg"><div class="font-headline-sm">80g</div><div class="font-label-md text-on-surface-variant">Target Protein</div></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Scanner Modal -->
+<div class="fixed inset-0 z-[100] hidden flex-col items-center justify-center" id="scanner-modal">
+<div class="absolute inset-0 bg-on-background/80 backdrop-blur-md" onclick="closeModal('scanner-modal')"></div>
+<!-- Scanner Content Wrapper -->
+<div class="relative w-full max-w-md mx-auto h-full max-h-[800px] flex flex-col justify-end md:justify-center p-4 transform scale-95 opacity-0 transition-all" id="scanner-modal-content">
+<button class="absolute top-8 right-8 z-10 w-10 h-10 bg-surface-container-lowest/20 backdrop-blur-md rounded-full flex items-center justify-center text-white border border-white/30" onclick="closeModal('scanner-modal')">
+<span class="material-symbols-outlined">close</span>
+</button>
+<!-- Scanning State -->
+<div class="flex-1 flex flex-col items-center justify-center text-white relative" id="scan-state-scanning">
+<div class="w-64 h-64 border-2 border-primary-fixed border-dashed rounded-xl relative overflow-hidden flex items-center justify-center">
+<span class="material-symbols-outlined text-primary-fixed" style="font-size: 48px;">restaurant</span>
+<!-- Scan line animation -->
+<div class="absolute top-0 left-0 w-full h-1 bg-primary-fixed shadow-[0_0_10px_#89f5e7] animate-[scan_2s_ease-in-out_infinite]"></div>
+</div>
+<p class="mt-8 font-headline-sm text-headline-sm">Analyzing Meal...</p>
+<p class="mt-2 font-body-sm text-body-sm text-white/70">Keep the camera steady</p>
+<!-- Fake camera viewfinder elements -->
+<div class="absolute top-1/4 left-10 w-4 h-4 border-t-2 border-l-2 border-white/50"></div>
+<div class="absolute top-1/4 right-10 w-4 h-4 border-t-2 border-r-2 border-white/50"></div>
+<div class="absolute bottom-1/4 left-10 w-4 h-4 border-b-2 border-l-2 border-white/50"></div>
+<div class="absolute bottom-1/4 right-10 w-4 h-4 border-b-2 border-r-2 border-white/50"></div>
+</div>
+<!-- Result State (Initially Hidden) -->
+<div class="hidden glass-panel rounded-2xl p-6 w-full shadow-2xl relative overflow-hidden" id="scan-state-result">
+<div class="flex items-start justify-between mb-4">
+<div>
+<h2 class="font-headline-md text-headline-md text-on-surface">Masala Dosa</h2>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Estimated Portion: 1 Serving (Medium)</p>
+</div>
+<div class="bg-primary-container text-on-primary-container px-3 py-1 rounded-full font-label-md text-label-md">
+                        High Carb
+                    </div>
+</div>
+<div class="grid grid-cols-3 gap-2 mb-6">
+<div class="bg-surface-container-lowest/50 rounded-lg p-3 text-center border border-white/20">
+<div class="font-headline-sm text-headline-sm text-on-surface">320</div>
+<div class="font-label-md text-label-md text-on-surface-variant">KCAL</div>
+</div>
+<div class="bg-surface-container-lowest/50 rounded-lg p-3 text-center border border-white/20">
+<div class="font-headline-sm text-headline-sm text-on-surface">8g</div>
+<div class="font-label-md text-label-md text-on-surface-variant">PRO</div>
+</div>
+<div class="bg-surface-container-lowest/50 rounded-lg p-3 text-center border border-white/20">
+<div class="font-headline-sm text-headline-sm text-on-surface">54g</div>
+<div class="font-label-md text-label-md text-on-surface-variant">CARB</div>
+</div>
+</div>
+<div class="bg-secondary-container/40 rounded-xl p-4 border border-secondary/20 mb-6">
+<h4 class="font-label-md text-label-md text-on-secondary-container mb-1">SMARTER CHOICE</h4>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Consider adding a side of sambar with extra vegetables to increase fiber and micronutrient intake.</p>
+</div>
+<button class="w-full bg-primary text-on-primary font-body-md text-body-md py-3 rounded-full hover:opacity-90 transition-opacity" onclick="logScannedMeal()">
+                    Add to Today's Food Timeline
+                </button>
+</div>
+</div>
+</div>
+<style>
+        @keyframes scan {
+            0% { top: 0; opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { top: 100%; opacity: 0; }
+        }
+    </style>
+<!-- Script for interactivity -->
+<script>
+        // Animations Flag
+        let animationsEnabled = true;
+        const TARGET_SCORE = 72;
+
+        // Modal Logic
+        function openModal(modalId) {
+            const modal = document.getElementById(modalId);
+            const content = document.getElementById(modalId + '-content');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            
+            // Trigger reflow
+            void modal.offsetWidth;
+            
+            content.classList.remove('scale-95', 'opacity-0');
+            content.classList.add('scale-100', 'opacity-100');
+        }
+
+        function closeModal(modalId) {
+            const modal = document.getElementById(modalId);
+            const content = document.getElementById(modalId + '-content');
+            
+            content.classList.remove('scale-100', 'opacity-100');
+            content.classList.add('scale-95', 'opacity-0');
+            
+            setTimeout(() => {
+                modal.classList.add('hidden');
+                modal.classList.remove('flex');
+                
+                // Reset scanner state if closing scanner modal
+                if(modalId === 'scanner-modal') {
+                    document.getElementById('scan-state-scanning').classList.remove('hidden');
+                    document.getElementById('scan-state-result').classList.add('hidden');
+                }
+            }, 300);
+        }
+
+        function openProfileModal() { openModal('profile-modal'); }
+        function openSettingsModal() { openModal('settings-modal'); }
+        function openNutrientsModal() { openModal('nutrients-modal'); }
+        function openBodyModal() { 
+            openModal('body-modal'); 
+            document.getElementById('calc-results').classList.add('hidden');
+        }
+
+        // Section Navigation
+        function showSection(sectionId) {
+            document.getElementById('section-overview').classList.add('hidden');
+            document.getElementById('section-analytics').classList.add('hidden');
+            
+            if(sectionId === 'overview') {
+                document.getElementById('section-overview').classList.remove('hidden');
+                document.getElementById('section-overview').classList.add('flex');
+                animateGauges();
+            } else if (sectionId === 'analytics') {
+                document.getElementById('section-analytics').classList.remove('hidden');
+                document.getElementById('section-analytics').classList.add('flex');
+            }
+        }
+
+        // Profile Updates
+        function updateProfileName() {
+            const name = document.getElementById('profile-name-input').value;
+            const firstName = name.split(' ')[0] || 'User';
+            document.getElementById('sidebar-greeting').innerText = `Good morning, ${firstName}`;
+            
+            // Update initials
+            const initials = name.split(' ').map(n => n[0]).join('').substring(0,2).toUpperCase();
+            document.getElementById('profile-initials').innerText = initials || 'U';
+        }
+
+        // Body Calculator
+        function calculateBodyMetrics() {
+            const h = parseFloat(document.getElementById('calc-height').value) / 100;
+            const w = parseFloat(document.getElementById('calc-weight').value);
+            if(h > 0 && w > 0) {
+                const bmi = (w / (h * h)).toFixed(1);
+                document.getElementById('res-bmi').innerText = bmi;
+                document.getElementById('calc-results').classList.remove('hidden');
+                
+                // Update main dashboard values
+                document.getElementById('bmi-display').innerText = bmi;
+            }
+        }
+
+        // Settings Toggles
+        function toggleTheme() {
+            const isDark = document.getElementById('theme-toggle').checked;
+            if(isDark) {
+                document.documentElement.classList.add('dark');
+            } else {
+                document.documentElement.classList.remove('dark');
+            }
+        }
+
+        function toggleAnimations() {
+            animationsEnabled = document.getElementById('anim-toggle').checked;
+            const fills = document.querySelectorAll('.gauge-fill, #mini-gauge-fill');
+            fills.forEach(el => {
+                el.style.transition = animationsEnabled ? 'transform 1.5s cubic-bezier(0.4, 0, 0.2, 1)' : 'none';
+                if(el.id === 'mini-gauge-fill') {
+                     el.style.transition = animationsEnabled ? 'all 1s ease-out' : 'none';
+                }
+            });
+            if(!animationsEnabled) {
+                 setGaugesToTarget();
+            } else {
+                 animateGauges();
+            }
+        }
+
+        // Scanner Logic
+        function openScannerModal() {
+            openModal('scanner-modal');
+            
+            // Simulate scanning delay then show result
+            setTimeout(() => {
+                document.getElementById('scan-state-scanning').classList.add('hidden');
+                const resultState = document.getElementById('scan-state-result');
+                resultState.classList.remove('hidden');
+            }, 2500);
+        }
+
+        function logScannedMeal() {
+            // Update Timeline
+            const timelineList = document.getElementById('food-timeline-list');
+            const placeholder = document.getElementById('dinner-placeholder');
+            
+            const newMealHtml = `
+                <li class="flex items-center gap-4 animate-[slideIn_0.3s_ease-out]">
+                    <div class="w-8 h-8 rounded-full bg-primary-container text-on-primary-container flex items-center justify-center">
+                        <span class="material-symbols-outlined" style="font-size: 16px;">check</span>
+                    </div>
+                    <div class="flex-1">
+                        <div class="font-body-md text-body-md text-on-surface">Dinner</div>
+                        <div class="font-body-sm text-body-sm text-on-surface-variant">Masala Dosa</div>
+                    </div>
+                </li>
+            `;
+            
+            if(placeholder) {
+                placeholder.remove();
+                timelineList.insertAdjacentHTML('beforeend', newMealHtml);
+            }
+
+            // Animate score bump
+            const newScore = Math.min(100, TARGET_SCORE + 5);
+            animateScoreNumber(TARGET_SCORE, newScore, 1000);
+            
+            closeModal('scanner-modal');
+        }
+
+        // Accordion & Gauge Logic
+        let isDetailsOpen = false;
+        function toggleNutritionDetails() {
+            const detailsDiv = document.getElementById('nutrition-details');
+            const icon = document.getElementById('accordion-icon');
+            
+            isDetailsOpen = !isDetailsOpen;
+            
+            if (isDetailsOpen) {
+                detailsDiv.classList.remove('hidden');
+                icon.style.transform = 'rotate(180deg)';
+                if(animationsEnabled) {
+                    // Reset main gauge briefly
+                    document.getElementById('main-gauge-fill').style.transform = 'rotate(-135deg)';
+                    setTimeout(animateGauges, 50);
+                } else {
+                    setGaugesToTarget();
+                }
+            } else {
+                detailsDiv.classList.add('hidden');
+                icon.style.transform = 'rotate(0deg)';
+            }
+        }
+        
+        function animateScoreNumber(start, end, duration, elementIds = ['main-score', 'mini-score', 'header-score']) {
+            if(!animationsEnabled) {
+                elementIds.forEach(id => {
+                    const el = document.getElementById(id);
+                    if(el) el.innerText = end;
+                });
+                return;
+            }
+
+            let startTimestamp = null;
+            const step = (timestamp) => {
+                if (!startTimestamp) startTimestamp = timestamp;
+                const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+                const currentVal = Math.floor(progress * (end - start) + start);
+                
+                elementIds.forEach(id => {
+                    const el = document.getElementById(id);
+                    if(el) el.innerText = currentVal;
+                });
+
+                if (progress < 1) {
+                    window.requestAnimationFrame(step);
+                }
+            };
+            window.requestAnimationFrame(step);
+        }
+
+        function setGaugesToTarget() {
+            const mainFill = document.getElementById('main-gauge-fill');
+            const miniFill = document.getElementById('mini-gauge-fill');
+            const targetRotation = -135 + (180 * (TARGET_SCORE / 100));
+            
+            if(mainFill) mainFill.style.transform = `rotate(${targetRotation}deg)`;
+            if(miniFill) miniFill.setAttribute('stroke-dasharray', `${TARGET_SCORE}, 100`);
+            
+            animateScoreNumber(TARGET_SCORE, TARGET_SCORE, 0); // instantly set text
+        }
+
+        function animateGauges() {
+            if(!animationsEnabled) {
+                setGaugesToTarget();
+                return;
+            }
+
+            const mainFill = document.getElementById('main-gauge-fill');
+            const miniFill = document.getElementById('mini-gauge-fill');
+            
+            // Start from 0
+            if(mainFill) mainFill.style.transform = 'rotate(-135deg)';
+            if(miniFill) miniFill.setAttribute('stroke-dasharray', '0, 100');
+            
+            // Animate to target
+            setTimeout(() => {
+                const targetRotation = -135 + (180 * (TARGET_SCORE / 100));
+                if(mainFill) mainFill.style.transform = `rotate(${targetRotation}deg)`;
+                if(miniFill) miniFill.setAttribute('stroke-dasharray', `${TARGET_SCORE}, 100`);
+                
+                animateScoreNumber(0, TARGET_SCORE, 1500);
+            }, 100);
+        }
+        
+        // Initialize on load
+        window.addEventListener('DOMContentLoaded', () => {
+             animateGauges();
+             
+             // Set Date
+             const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+             document.getElementById('sidebar-date').innerText = new Date().toLocaleDateString('en-US', options);
+        });
+
+    </script>
+<style>
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</body></html>
